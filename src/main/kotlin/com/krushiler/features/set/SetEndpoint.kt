@@ -1,5 +1,6 @@
 package com.krushiler.features.set
 
+import com.krushiler.features.set.data.SetGameConnection
 import com.krushiler.features.set.data.SetRepository
 import com.krushiler.features.set.dto.*
 import com.krushiler.features.user.data.UserRepository
@@ -7,11 +8,26 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.websocket.*
+import io.ktor.websocket.*
 import org.koin.ktor.ext.inject
 
 fun Route.setEndpoint() {
     val setRepository by inject<SetRepository>()
     val userRepository by inject<UserRepository>()
+
+    webSocket {
+        try {
+            for (frame in incoming) {
+                frame as? Frame.Text ?: continue
+                val userToken: String = frame.readText()
+                val userId = userRepository.getUserByToken(userToken).id
+                setRepository.setUserConnection(SetGameConnection(this), userId)
+            }
+        } finally {
+            close()
+        }
+    }
 
     post("/pick") {
         try {
