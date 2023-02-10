@@ -1,8 +1,16 @@
 package com.krushiler.features.set.model
 
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.min
 
 class SetGame {
+
+    companion object {
+        private val lastGameId = AtomicInteger()
+    }
+
+    val gameId = lastGameId.getAndIncrement()
+
     private val _cards = mutableListOf<Card>()
     val cards: List<Card>
         get() = _cards
