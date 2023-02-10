@@ -82,5 +82,21 @@ fun Route.setEndpoint() {
                 call.respond(e.localizedMessage)
             }
         }
+        post("/list") {
+            try {
+                val request = call.receive<GamesListRequest>()
+                userRepository.getUserByToken(request.accessToken).id
+                val games = setRepository.getGames()
+                call.respond(
+                    GamesListResponse(
+                        games = games.map {
+                            GameDto.fromSetGame(it)
+                        }
+                    )
+                )
+            } catch (e: IllegalArgumentException) {
+                call.respond(e.localizedMessage)
+            }
+        }
     }
 }

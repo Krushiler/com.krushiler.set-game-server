@@ -1,6 +1,7 @@
 package com.krushiler.features.set.data
 
 import io.ktor.websocket.*
+import java.util.concurrent.CancellationException
 import java.util.concurrent.atomic.AtomicInteger
 
 class SetGameConnection(private val session: DefaultWebSocketSession) {
@@ -11,6 +12,8 @@ class SetGameConnection(private val session: DefaultWebSocketSession) {
     val id = lastId.getAndIncrement()
 
     suspend fun sendGameStateUpdated() {
-        session.send("update")
+        try {
+            session.send("update")
+        } catch (_: CancellationException) {}
     }
 }

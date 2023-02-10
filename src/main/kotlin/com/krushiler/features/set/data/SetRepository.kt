@@ -31,6 +31,8 @@ class SetRepository {
         userGames[userId]?.getField() ?: throw IllegalArgumentException("No current game for you")
 
 
+    fun getGames(): List<SetGame> = games
+
     suspend fun pickCards(userId: Int, pickedCardsIds: List<Int>): Boolean {
         val game = userGames[userId]
         userConnections
