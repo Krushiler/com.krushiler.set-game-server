@@ -41,8 +41,10 @@ class SetGame {
         for (color in 1..3) {
             for (shape in 1..3) {
                 for (fill in 1..3) {
-                    cardId++
-                    _cards.add(Card(cardId, color, shape, fill))
+                    for (count in 1..3) {
+                        cardId++
+                        _cards.add(Card(cardId, color, shape, fill, count))
+                    }
                 }
             }
         }

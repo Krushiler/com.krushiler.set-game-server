@@ -19,14 +19,16 @@ data class CardDto(
     val id: Int,
     val color: Int,
     val shape: Int,
-    val fill: Int
+    val fill: Int,
+    val count: Int
 ) {
     companion object {
         fun fromCard(card: Card) = CardDto(
             id = card.id,
             color = card.color,
             shape = card.shape,
-            fill = card.fill
+            fill = card.fill,
+            count = card.count
         )
     }
 }
