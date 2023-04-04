@@ -4,6 +4,7 @@ import com.krushiler.features.user.data.UserRepository
 import com.krushiler.features.user.dto.GetUsersResponse
 import com.krushiler.features.user.dto.RegisterRequest
 import com.krushiler.features.user.dto.RegisterResponse
+import com.krushiler.util.respondError
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -23,7 +24,7 @@ fun Route.userEndpoint() {
             )
             call.respond(RegisterResponse.fromUser(user))
         } catch (e: IllegalArgumentException) {
-            call.respond(e.localizedMessage)
+            call.respondError(e.localizedMessage)
         }
     }
 

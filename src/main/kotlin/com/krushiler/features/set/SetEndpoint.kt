@@ -4,6 +4,8 @@ import com.krushiler.features.set.data.SetGameConnection
 import com.krushiler.features.set.data.SetRepository
 import com.krushiler.features.set.dto.*
 import com.krushiler.features.user.data.UserRepository
+import com.krushiler.util.respondError
+import com.krushiler.util.respondSuccess
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -36,7 +38,7 @@ fun Route.setEndpoint() {
             val result = setRepository.pickCards(uid, request.cards)
             call.respond(PickCardsResponse(result))
         } catch (e: IllegalArgumentException) {
-            call.respond(e.localizedMessage)
+            call.respondError(e.localizedMessage)
         }
     }
 
@@ -53,7 +55,7 @@ fun Route.setEndpoint() {
                 )
             )
         } catch (e: IllegalArgumentException) {
-            call.respond(e.localizedMessage)
+            call.respondError(e.localizedMessage)
         }
     }
 
@@ -63,11 +65,9 @@ fun Route.setEndpoint() {
                 val request = call.receive<CreateGameRequest>()
                 val uid = userRepository.getUserByToken(request.accessToken).id
                 setRepository.startGame(uid)
-                call.respond(
-                    true
-                )
+                call.respondSuccess()
             } catch (e: IllegalArgumentException) {
-                call.respond(e.localizedMessage)
+                call.respondError(e.localizedMessage)
             }
         }
         post("/enter") {
@@ -75,11 +75,9 @@ fun Route.setEndpoint() {
                 val request = call.receive<EnterGameRequest>()
                 val uid = userRepository.getUserByToken(request.accessToken).id
                 setRepository.enterGame(gameId = request.gameId, userId = uid)
-                call.respond(
-                    true
-                )
+                call.respondSuccess()
             } catch (e: IllegalArgumentException) {
-                call.respond(e.localizedMessage)
+                call.respondError(e.localizedMessage)
             }
         }
         post("/list") {
@@ -95,7 +93,7 @@ fun Route.setEndpoint() {
                     )
                 )
             } catch (e: IllegalArgumentException) {
-                call.respond(e.localizedMessage)
+                call.respondError(e.localizedMessage)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.krushiler.features.set.dto
 
+import com.krushiler.dto.BaseResponseDto
 import com.krushiler.features.set.model.Card
 import com.krushiler.features.set.model.SetGame
 import kotlinx.serialization.Serializable
@@ -42,7 +43,7 @@ data class PickCardsRequest(
 @Serializable
 data class PickCardsResponse(
     val isSet: Boolean,
-)
+) : BaseResponseDto()
 
 @Serializable
 data class GetCardsRequest(
@@ -52,7 +53,7 @@ data class GetCardsRequest(
 @Serializable
 data class GetCardsResponse(
     val cards: List<CardDto>
-)
+) : BaseResponseDto()
 
 
 @Serializable
@@ -74,4 +75,4 @@ data class GamesListRequest(
 @Serializable
 data class GamesListResponse(
     val games: List<GameDto>
-)
+) : BaseResponseDto()

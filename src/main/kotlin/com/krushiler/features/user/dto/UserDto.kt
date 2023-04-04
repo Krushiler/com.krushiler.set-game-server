@@ -1,5 +1,6 @@
 package com.krushiler.features.user.dto
 
+import com.krushiler.dto.BaseResponseDto
 import com.krushiler.features.user.model.User
 import kotlinx.serialization.Serializable
 
@@ -13,7 +14,7 @@ data class RegisterRequest(
 data class RegisterResponse(
     val nickname: String,
     val accessToken: String,
-) {
+) : BaseResponseDto() {
     companion object {
         fun fromUser(user: User) = RegisterResponse(
             nickname = user.nickname,
@@ -25,4 +26,4 @@ data class RegisterResponse(
 @Serializable
 data class GetUsersResponse(
     val users: List<String>
-)
+) : BaseResponseDto()
