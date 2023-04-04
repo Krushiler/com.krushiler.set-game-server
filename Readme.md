@@ -1,3 +1,26 @@
+## Base response format
+
++ Success
+
+```
+{
+    "success": true,
+    "exception": null,
+    "nickname": "Andrey",
+    "accessToken": "JusOh2nRK1kZpxzK"
+}
+```
+
++ Error
+```
+{
+    "success": false,
+    "exception": {
+        "message": "Nickname or password is incorrect"
+    }
+}
+```
+
 ### Registration
 ```/user/register```
 
