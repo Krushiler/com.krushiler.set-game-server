@@ -35,7 +35,9 @@
 
 + Response
 ```
-true
+{
+    "success":true
+}
 ```
 
 ### List of games
@@ -72,7 +74,9 @@ true
 
 + Response
 ```
-true
+{
+    "success":true
+}
 ```
 
 ## When user is in-game
