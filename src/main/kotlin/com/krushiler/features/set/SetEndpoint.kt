@@ -57,7 +57,7 @@ fun Route.setEndpoint() {
         }
     }
 
-    route("/game") {
+    route("/room") {
         post("/create") {
             try {
                 val request = call.receive<CreateGameRequest>()
