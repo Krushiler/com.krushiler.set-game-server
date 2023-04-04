@@ -24,7 +24,7 @@
 
 ## Game
 ### Create
-```/set/game/create```
+```/set/room/create```
 
 + Request
 ```
@@ -39,7 +39,7 @@ true
 ```
 
 ### List of games
-```/set/game/list```
+```/set/room/list```
 
 + Request
 ```
@@ -60,7 +60,7 @@ true
 ```
 
 ### Enter the game
-```/set/game/list/enter```
+```/set/room/list/enter```
 
 + Request
 ```
