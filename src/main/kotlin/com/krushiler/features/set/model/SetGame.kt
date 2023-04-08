@@ -56,5 +56,6 @@ class SetGame {
         return (get(0).shape == get(1).shape) == (get(1).shape == get(2).shape)
                 && (get(0).color == get(1).color) == (get(1).color == get(2).color)
                 && (get(0).fill == get(1).fill) == (get(1).fill == get(2).fill)
+                && (get(0).count == get(1).count) == (get(1).count == get(2).count)
     }
 }
