@@ -59,7 +59,9 @@
 + Response
 ```
 {
-    "success":true
+    "success": true,
+    "exception": null,
+    "gameId": 0
 }
 ```
 
@@ -98,7 +100,9 @@
 + Response
 ```
 {
-    "success":true
+    "success": true,
+    "exception": null,
+    "gameId": 0
 }
 ```
 
@@ -181,7 +185,8 @@
             "fill": 1,
             "count": 3
         }
-    ]
+    ],
+    "score": 0
 }
 ```
 
@@ -202,6 +207,7 @@
 + Response
 ```
 {
-    "isSet": false
+    "isSet": false,
+    "score": 0
 }
 ```
