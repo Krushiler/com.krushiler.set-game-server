@@ -43,6 +43,7 @@ data class PickCardsRequest(
 @Serializable
 data class PickCardsResponse(
     val isSet: Boolean,
+    val score: Int
 ) : BaseResponseDto()
 
 @Serializable
@@ -52,7 +53,8 @@ data class GetCardsRequest(
 
 @Serializable
 data class GetCardsResponse(
-    val cards: List<CardDto>
+    val cards: List<CardDto>,
+    val score: Int
 ) : BaseResponseDto()
 
 
@@ -62,10 +64,20 @@ data class CreateGameRequest(
 )
 
 @Serializable
+data class CreateGameResponse(
+    val gameId: Int
+) : BaseResponseDto()
+
+@Serializable
 data class EnterGameRequest(
     val accessToken: String,
     val gameId: Int
 )
+
+@Serializable
+data class EnterGameResponse(
+    val gameId: Int
+) : BaseResponseDto()
 
 @Serializable
 data class GamesListRequest(

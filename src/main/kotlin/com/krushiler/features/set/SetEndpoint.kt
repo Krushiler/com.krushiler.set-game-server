@@ -5,7 +5,6 @@ import com.krushiler.features.set.data.SetRepository
 import com.krushiler.features.set.dto.*
 import com.krushiler.features.user.data.UserRepository
 import com.krushiler.util.respondError
-import com.krushiler.util.respondSuccess
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -36,7 +35,8 @@ fun Route.setEndpoint() {
             val request = call.receive<PickCardsRequest>()
             val uid = userRepository.getUserByToken(request.accessToken).id
             val result = setRepository.pickCards(uid, request.cards)
-            call.respond(PickCardsResponse(result))
+            val score = setRepository.getUserStats(uid).score
+            call.respond(PickCardsResponse(result, score))
         } catch (e: IllegalArgumentException) {
             call.respondError(e.localizedMessage)
         }
@@ -47,11 +47,13 @@ fun Route.setEndpoint() {
             val request = call.receive<GetCardsRequest>()
             val uid = userRepository.getUserByToken(request.accessToken).id
             val result = setRepository.getCards(uid)
+            val score = setRepository.getUserStats(uid).score
             call.respond(
                 GetCardsResponse(
                     cards = result.map {
                         CardDto.fromCard(it)
-                    }
+                    },
+                    score = score
                 )
             )
         } catch (e: IllegalArgumentException) {
@@ -64,8 +66,8 @@ fun Route.setEndpoint() {
             try {
                 val request = call.receive<CreateGameRequest>()
                 val uid = userRepository.getUserByToken(request.accessToken).id
-                setRepository.startGame(uid)
-                call.respondSuccess()
+                val gameId = setRepository.startGame(uid)
+                call.respond(CreateGameResponse(gameId))
             } catch (e: IllegalArgumentException) {
                 call.respondError(e.localizedMessage)
             }
@@ -75,7 +77,7 @@ fun Route.setEndpoint() {
                 val request = call.receive<EnterGameRequest>()
                 val uid = userRepository.getUserByToken(request.accessToken).id
                 setRepository.enterGame(gameId = request.gameId, userId = uid)
-                call.respondSuccess()
+                call.respond(EnterGameResponse(request.gameId))
             } catch (e: IllegalArgumentException) {
                 call.respondError(e.localizedMessage)
             }
