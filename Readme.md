@@ -186,9 +186,12 @@
             "count": 3
         }
     ],
+    "status": "ongoing",
     "score": 0
 }
 ```
+
+Status can be ```ongoing``` or ```ended```
 
 ### Pick
 
@@ -209,5 +212,57 @@
 {
     "isSet": false,
     "score": 0
+}
+```
+
+### Add
+
+Add cards to field
+
+```/set/pick```
+
++ Request
+```
+{
+    "accessToken":"eY2VZi90YhhkU1Yo",
+}
+```
+
++ Response
+```
+{
+    "success": true,
+    "exception": null
+}
+```
+
+### Scores
+
+Add cards to field
+
+```/set/pick```
+
++ Request
+```
+{
+    "accessToken":"eY2VZi90YhhkU1Yo",
+}
+```
+
++ Response
+```
+{
+    "success": true,
+    "exception": null,
+    "users": [
+        {
+            "name": "Sergey",
+            "score": 0
+        },
+        {
+            "name": "Andrey",
+            "score": 0
+        }
+    ]
 }
 ```
