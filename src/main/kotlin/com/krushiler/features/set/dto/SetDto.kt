@@ -47,6 +47,27 @@ data class PickCardsResponse(
 ) : BaseResponseDto()
 
 @Serializable
+data class AddCardsRequest(
+    val accessToken: String
+)
+
+@Serializable
+data class ScoresRequest(
+    val accessToken: String
+)
+
+@Serializable
+data class PlayerDto(
+    val name: String,
+    val score: Int
+)
+
+@Serializable
+data class ScoresResponse(
+    val users: List<PlayerDto>
+) : BaseResponseDto()
+
+@Serializable
 data class GetCardsRequest(
     val accessToken: String
 )
@@ -54,6 +75,7 @@ data class GetCardsRequest(
 @Serializable
 data class GetCardsResponse(
     val cards: List<CardDto>,
+    val status: String,
     val score: Int
 ) : BaseResponseDto()
 
@@ -78,6 +100,11 @@ data class EnterGameRequest(
 data class EnterGameResponse(
     val gameId: Int
 ) : BaseResponseDto()
+
+@Serializable
+data class LeaveGameRequest(
+    val accessToken: String
+)
 
 @Serializable
 data class GamesListRequest(

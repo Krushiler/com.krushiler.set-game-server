@@ -76,6 +76,16 @@ class UserDataSource(private val database: Database) {
         }
     }
 
+    suspend fun getUserById(id: Int): User? {
+        return dbQuery {
+            Users.select { Users.id eq id }
+                .map {
+                    it.user()
+                }
+                .singleOrNull()
+        }
+    }
+
     suspend fun tokenIsFree(token: String): Boolean {
         val user = dbQuery {
             Users.select { Users.accessToken eq token }

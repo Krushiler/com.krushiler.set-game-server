@@ -29,6 +29,9 @@ class UserRepository(private val userDataSource: UserDataSource) {
     suspend fun getUserByToken(token: String): User =
         userDataSource.getUserByToken(token) ?: throw IllegalArgumentException("User does not exist")
 
+    suspend fun getUserById(id: Int): User =
+        userDataSource.getUserById(id) ?: throw IllegalArgumentException("User does not exist")
+
 
     suspend fun getAllUsers(): List<User> = userDataSource.getAll()
 }

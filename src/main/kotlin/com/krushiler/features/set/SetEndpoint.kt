@@ -5,6 +5,7 @@ import com.krushiler.features.set.data.SetRepository
 import com.krushiler.features.set.dto.*
 import com.krushiler.features.user.data.UserRepository
 import com.krushiler.util.respondError
+import com.krushiler.util.respondSuccess
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -48,14 +49,46 @@ fun Route.setEndpoint() {
             val uid = userRepository.getUserByToken(request.accessToken).id
             val result = setRepository.getCards(uid)
             val score = setRepository.getUserStats(uid).score
+            val status = setRepository.getStatus(uid)
             call.respond(
                 GetCardsResponse(
                     cards = result.map {
                         CardDto.fromCard(it)
                     },
-                    score = score
+                    score = score,
+                    status = status.name
                 )
             )
+        } catch (e: IllegalArgumentException) {
+            call.respondError(e.localizedMessage)
+        }
+    }
+
+    post("/add") {
+        try {
+            val request = call.receive<AddCardsRequest>()
+            val uid = userRepository.getUserByToken(request.accessToken).id
+            setRepository.addCards(uid)
+            call.respondSuccess()
+        } catch (e: IllegalArgumentException) {
+            call.respondError(e.localizedMessage)
+        }
+    }
+
+    post("/scores") {
+        try {
+            val request = call.receive<ScoresRequest>()
+            val uid = userRepository.getUserByToken(request.accessToken).id
+            val scores = setRepository.getAllScoresInGame(uid)
+            call.respond(ScoresResponse(
+                scores.map { stats ->
+                    PlayerDto(
+                        name = userRepository.getUserById(stats.key).nickname,
+                        score = stats.value.score
+                    )
+                }
+            ))
+            call.respondSuccess()
         } catch (e: IllegalArgumentException) {
             call.respondError(e.localizedMessage)
         }
@@ -81,6 +114,12 @@ fun Route.setEndpoint() {
             } catch (e: IllegalArgumentException) {
                 call.respondError(e.localizedMessage)
             }
+        }
+        post("/leave") {
+            val request = call.receive<LeaveGameRequest>()
+            val uid = userRepository.getUserByToken(request.accessToken).id
+            setRepository.leaveGame(userId = uid)
+            call.respondSuccess()
         }
         post("/list") {
             try {

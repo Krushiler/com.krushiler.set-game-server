@@ -2,6 +2,7 @@ package com.krushiler.features.set.data
 
 import com.krushiler.features.set.model.Card
 import com.krushiler.features.set.model.SetGame
+import com.krushiler.features.set.model.SetGameState
 import com.krushiler.features.set.model.UserGameStats
 
 class SetRepository {
@@ -18,6 +19,9 @@ class SetRepository {
         return game.gameId
     }
 
+    fun getAllScoresInGame(userId: Int): Map<Int, UserGameStats> =
+        userGames[userId]?.users ?: throw IllegalArgumentException("No current game for you")
+
     fun enterGame(gameId: Int, userId: Int) {
         try {
             val neededGame = games.first {
@@ -33,6 +37,8 @@ class SetRepository {
     fun getCards(userId: Int): List<Card> =
         userGames[userId]?.field ?: throw IllegalArgumentException("No current game for you")
 
+    fun getStatus(userId: Int): SetGameState =
+        userGames[userId]?.gameState ?: throw IllegalArgumentException("No current game for you")
 
     fun getGames(): List<SetGame> = games
 
@@ -55,8 +61,25 @@ class SetRepository {
     fun getUserStats(userId: Int): UserGameStats =
         userGames[userId]?.users?.get(userId) ?: throw IllegalArgumentException("No such user or game")
 
-    fun removeUserConnection(userId: Int) {
+    suspend fun addCards(userId: Int) {
+        val game = userGames[userId] ?: throw IllegalArgumentException("No such user or game")
+        game.addCards()
+        game.notifyUsers()
+    }
+
+    fun leaveGame(userId: Int) {
         userGames[userId]?.removeUser(userId)
+        userGames.remove(userId)
         userConnections.remove(userId)
+    }
+
+    private suspend fun SetGame.notifyUsers() {
+        userConnections
+            .filter {
+                userGames[it.key]?.gameId == gameId
+            }
+            .forEach {
+                it.value.sendGameStateUpdated()
+            }
     }
 }
