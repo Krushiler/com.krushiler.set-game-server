@@ -1,3 +1,8 @@
+## Deployment
+#### You have 2 ways to deploy the server
+ 1. Use ```docker build .``` in the root project's directory
+ 2. Run ```gradlew buildFatJar``` in the root project's directory. The built jar will be in ./build/libs/. Ensure you have a correct JAVA_HOME
+
 ## Base response format
 
 + Success
