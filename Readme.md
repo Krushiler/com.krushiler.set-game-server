@@ -224,7 +224,7 @@ Status can be ```ongoing``` or ```ended```
 
 Add cards to field
 
-```/set/pick```
+```/set/add```
 
 + Request
 ```
@@ -245,7 +245,7 @@ Add cards to field
 
 Add cards to field
 
-```/set/pick```
+```/set/add```
 
 + Request
 ```
