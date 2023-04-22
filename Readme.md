@@ -245,7 +245,7 @@ Add cards to field
 
 Add cards to field
 
-```/set/add```
+```/set/scores```
 
 + Request
 ```
