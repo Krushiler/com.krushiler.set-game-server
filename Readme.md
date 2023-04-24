@@ -92,7 +92,7 @@
 ```
 
 ### Enter the game
-```/set/room/list/enter```
+```/set/room/enter```
 
 + Request
 ```
